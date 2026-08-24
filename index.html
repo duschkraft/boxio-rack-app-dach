@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>BOXIO RACK Konfigurator</title>
+<style>
+  :root{ --petrol:#3F5253; --petrol-dk:#2C3B3C; --sage:#909D8C; --green:#DEDFD0; --bg:#EDEEE4; --ink:#1D1D1B; --white:#fff; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+  .card{
+    background:var(--white); border:1px solid #D6D8CD; border-radius:20px;
+    box-shadow:0 6px 30px rgba(29,29,27,.08);
+    max-width:460px; width:100%; padding:44px 32px 40px; text-align:center;
+  }
+  .eyebrow{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--petrol);
+    background:var(--green); border-radius:5px; padding:5px 12px; margin-bottom:18px;
+  }
+  h1{ font-size:26px; font-weight:700; color:var(--petrol); margin:0 0 10px; line-height:1.2; }
+  p.sub{ font-size:15px; color:#5A5F58; margin:0 0 30px; line-height:1.5; }
+  .btns{ display:flex; flex-direction:column; gap:14px; }
+  a.btn{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    text-decoration:none; font-size:17px; font-weight:600;
+    padding:18px 20px; border-radius:14px; min-height:60px;
+    background:var(--petrol); color:var(--white);
+    transition:background .15s ease, transform .1s ease;
+  }
+  a.btn:hover{ background:var(--petrol-dk); }
+  a.btn:active{ transform:scale(.98); }
+  a.btn .flag{ font-size:20px; }
+  .foot{ margin-top:26px; font-size:12px; color:var(--sage); }
+</style>
+</head>
+<body>
+  <main class="card">
+    <span class="eyebrow">Kompatibilitäts-Check</span>
+    <h1>BOXIO RACK Konfigurator</h1>
+    <p class="sub">Bitte Sprache wählen · Choisis ta langue</p>
+    <div class="btns">
+      <a class="btn" href="de.html"><span class="flag">🇩🇪</span> Deutsch</a>
+      <a class="btn" href="fr.html"><span class="flag">🇫🇷</span> Français</a>
+    </div>
+    <div class="foot">BOXIO · RACK</div>
+  </main>
+</body>
+</html>

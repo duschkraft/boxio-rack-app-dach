@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BOXIO RACK Konfigurator</title>
+<style>html,body{margin:0;padding:0;background:#EDEEE4;-webkit-font-smoothing:antialiased;}*{box-sizing:border-box;}</style>
+</head>
+<body>
+<section
+  class="brc-section"
+  id="brc-rackcfg"
+  data-section-id="rackcfg"
+  data-show-price="false"
+  data-contact-url="#"
+  data-support-email=""
+  data-form-url="#"
+  style="background:#EDEEE4;"
+>
+
+<style>
+  #brc-rackcfg {
+    --brc-oak:    #3F5253;
+    --brc-oak-dk: #171E1F;
+    --brc-oak-lt: #AABDBE;
+    --brc-panel:  #DEDFD0;
+    --brc-ink:    #1D1D1B;
+    --brc-ink-md: #676760;
+    --brc-ink-mu: #6C6C66;
+    --brc-sf:     #FFFFFF;
+    --brc-bd:     #D6D8CD;
+    --brc-ok:     #3F5253;
+    --brc-ok-bg:  #DEDFD0;
+    --brc-ok-bd:  #909D8C;
+    --brc-no:     #9B2E2E;
+    --brc-no-bg:  #FFFFFF;
+    --brc-no-bd:  #E7AEAE;
+    --brc-r:   10px;
+    --brc-rl:  16px;
+    --brc-sh:  0 2px 12px rgba(26,25,22,.08);
+    --brc-shh: 0 6px 24px rgba(26,25,22,.13);
+    --brc-t:   200ms ease;
+    font-family: var(--font-body-family, system-ui, -apple-system, sans-serif);
+  }
+
+  /* ── Layout ─────────────────────────────────────────────── */
+  #brc-rackcfg .brc-inner  { max-width:960px; margin:0 auto; padding:52px 20px 60px; }
+  #brc-rackcfg .brc-hidden { display:none !important; }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  #brc-rackcfg .brc-eyebrow {
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--brc-oak-dk);
+    background:var(--brc-panel); border-radius:4px;
+    padding:4px 10px; margin:0 0 14px;
+  }
+  #brc-rackcfg .brc-title {
+    font-size:clamp(22px,4vw,36px); font-weight:700; color:var(--brc-ink);
+    margin:0 0 12px; line-height:1.2; font-family:var(--font-heading-family,inherit);
+  }
+  #brc-rackcfg .brc-sub {
+    font-size:15px; color:var(--brc-ink-md); margin:0 0 28px; line-height:1.6; max-width:560px;
+  }
+
+  /* ── Mode Toggle ────────────────────────────────────────── */
+  #brc-rackcfg .brc-toggle {
+    display:grid; grid-template-columns:1fr 1fr;
+    background:var(--brc-bd); border-radius:12px;
+    padding:4px; gap:4px; margin-bottom:24px;
+  }
+  #brc-rackcfg .brc-tab {
+    padding:11px 10px; border-radius:9px; border:none;
+    cursor:pointer; font-size:13px; font-weight:600;
+    color:var(--brc-ink); background:rgba(255,255,255,.55);
+    display:flex; align-items:center; justify-content:center;
+    gap:6px; transition:all var(--brc-t);
+    min-height:46px; touch-action:manipulation;
+    line-height:1.2; text-align:center;
+  }
+  #brc-rackcfg .brc-tab:hover:not(.brc-tab--on) { background:rgba(255,255,255,.78); }
+  #brc-rackcfg .brc-tab--on {
+    background:var(--brc-sf); color:var(--brc-ink); font-weight:700;
+    box-shadow:0 1px 6px rgba(26,25,22,.14);
+  }
+
+  /* ── Filters ────────────────────────────────────────────── */
+  #brc-rackcfg .brc-filters {
+    background:var(--brc-sf); border:1.5px solid var(--brc-bd);
+    border-radius:var(--brc-rl); padding:18px 20px;
+    margin-bottom:28px; display:flex; flex-direction:column; gap:14px;
+  }
+  #brc-rackcfg .brc-filter-row { display:flex; flex-direction:column; gap:7px; }
+  #brc-rackcfg .brc-filter-lbl {
+    font-size:11px; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--brc-ink-mu);
+  }
+  #brc-rackcfg .brc-filter-opts { display:flex; flex-wrap:wrap; gap:7px; }
+  #brc-rackcfg .brc-pill {
+    padding:7px 14px; border-radius:20px; border:1.5px solid var(--brc-bd);
+    cursor:pointer; font-size:13px; font-weight:600; color:var(--brc-ink-md);
+    background:transparent; transition:all var(--brc-t);
+    min-height:36px; touch-action:manipulation; white-space:nowrap;
+  }
+  #brc-rackcfg .brc-pill--on { background:var(--brc-ink); color:var(--brc-sf); border-color:var(--brc-ink); }
+  #brc-rackcfg .brc-pill:hover:not(.brc-pill--on) { border-color:var(--brc-oak); color:var(--brc-oak); }
+  #brc-rackcfg .brc-filter-note { font-size:11px; color:var(--brc-ink-mu); margin:4px 0 0; font-style:italic; }
+
+  /* ── Steps ──────────────────────────────────────────────── */
+  #brc-rackcfg .brc-steps { display:flex; align-items:center; margin:0 0 24px; }
+  #brc-rackcfg .brc-step { display:flex; align-items:center; gap:6px; opacity:.35; transition:opacity var(--brc-t); }
+  #brc-rackcfg .brc-step--active, #brc-rackcfg .brc-step--done { opacity:1; }
+  #brc-rackcfg .brc-step__dot {
+    width:26px; height:26px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:700;
+    background:var(--brc-bd); color:var(--brc-ink-mu);
+    transition:background var(--brc-t),color var(--brc-t);
+  }
+  #brc-rackcfg .brc-step--active .brc-step__dot { background:var(--brc-oak); color:var(--brc-sf); }
+  #brc-rackcfg .brc-step--done .brc-step__dot   { background:var(--brc-ok);  color:var(--brc-sf); }
+  #brc-rackcfg .brc-step__lbl { font-size:12px; font-weight:600; color:var(--brc-ink); }
+  #brc-rackcfg .brc-step-ln   { flex:1; height:2px; background:var(--brc-bd); margin:0 6px; min-width:12px; }
+
+  /* ── Panels ─────────────────────────────────────────────── */
+  #brc-rackcfg .brc-panel--hidden { display:none; }
+  #brc-rackcfg .brc-panel { animation:brcIn 220ms ease; }
+  @keyframes brcIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+  /* ── Back Button ─────────────────────────────────────────── */
+  #brc-rackcfg .brc-back {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:13px; font-weight:600; color:var(--brc-ink-md);
+    background:var(--brc-panel); border:1.5px solid var(--brc-bd);
+    border-radius:24px; cursor:pointer;
+    padding:9px 18px; margin-bottom:20px; min-height:46px;
+    touch-action:manipulation; transition:all var(--brc-t);
+  }
+  #brc-rackcfg .brc-back:hover { color:var(--brc-oak); border-color:var(--brc-oak); }
+  /* ── Reset Button ──────────────────────────────────────────── */
+  #brc-rackcfg .brc-steps-row { display:flex; align-items:center; gap:10px; margin:0 0 24px; }
+  #brc-rackcfg .brc-steps-row .brc-steps { flex:1; margin:0; }
+  #brc-rackcfg .brc-reset-btn {
+    display:none; align-items:center; gap:5px;
+    font-size:12px; font-weight:600; color:var(--brc-ink-md);
+    background:var(--brc-sf); border:1.5px solid var(--brc-bd);
+    border-radius:20px; padding:7px 14px; min-height:36px;
+    cursor:pointer; touch-action:manipulation; transition:all var(--brc-t);
+    flex-shrink:0; white-space:nowrap;
+  }
+  #brc-rackcfg .brc-reset-btn--on { display:inline-flex; }
+  #brc-rackcfg .brc-reset-btn:hover { border-color:var(--brc-oak); color:var(--brc-ink); }
+  /* old slider/intro CSS removed */
+
+  /* ── Brand Grid ─────────────────────────────────────────── */
+  #brc-rackcfg .brc-brands { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:10px; }
+  #brc-rackcfg .brc-brand-card {
+    background:var(--brc-sf); border:1.5px solid var(--brc-bd); border-radius:var(--brc-r);
+    padding:16px 14px; cursor:pointer; display:flex; flex-direction:column;
+    align-items:flex-start; gap:4px; text-align:left; min-height:60px;
+    touch-action:manipulation; transition:border-color var(--brc-t),box-shadow var(--brc-t),transform var(--brc-t);
+  }
+  #brc-rackcfg .brc-brand-card:hover  { border-color:var(--brc-oak); box-shadow:var(--brc-shh); transform:translateY(-2px); }
+  #brc-rackcfg .brc-brand-card:active { transform:scale(.97); }
+  #brc-rackcfg .brc-brand-nm  { font-size:13px; font-weight:700; color:var(--brc-ink); }
+  #brc-rackcfg .brc-brand-cnt { font-size:11px; color:var(--brc-ink-mu); margin-top:2px; }
+
+  /* ── Model List ─────────────────────────────────────────── */
+  #brc-rackcfg .brc-ph { font-size:16px; font-weight:700; color:var(--brc-ink); margin:0 0 12px; }
+  #brc-rackcfg .brc-models { display:flex; flex-direction:column; gap:7px; }
+  #brc-rackcfg .brc-model-card {
+    background:var(--brc-sf); border:1.5px solid var(--brc-bd); border-radius:var(--brc-r);
+    padding:12px 14px; cursor:pointer; display:flex; align-items:center; gap:10px;
+    min-height:60px; touch-action:manipulation;
+    transition:border-color var(--brc-t),box-shadow var(--brc-t);
+  }
+  #brc-rackcfg .brc-model-card:hover  { border-color:var(--brc-oak); box-shadow:var(--brc-sh); }
+  #brc-rackcfg .brc-model-card:active { background:var(--brc-panel); }
+  #brc-rackcfg .brc-model-nm { font-size:13px; font-weight:600; color:var(--brc-ink); margin:0 0 1px; }
+  #brc-rackcfg .brc-model-yr { font-size:11px; color:var(--brc-ink-mu); }
+  #brc-rackcfg .brc-model-dm { font-size:10px; color:var(--brc-ink-mu); text-align:right; line-height:1.6; flex-shrink:0; }
+  #brc-rackcfg .brc-model-ar { color:var(--brc-oak); font-size:20px; flex-shrink:0; }
+
+  /* ── Vehicle Banner ─────────────────────────────────────── */
+  #brc-rackcfg .brc-vbanner {
+    background:var(--brc-ink); color:var(--brc-sf); border-radius:var(--brc-r);
+    padding:14px 18px; margin-bottom:20px;
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;
+  }
+  #brc-rackcfg .brc-vbanner__lbl { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; opacity:.5; margin:0 0 2px; }
+  #brc-rackcfg .brc-vbanner__nm  { font-size:15px; font-weight:700; margin:0; }
+  #brc-rackcfg .brc-vbanner__dims { display:flex; flex-wrap:wrap; gap:5px; }
+  #brc-rackcfg .brc-dchip { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); border-radius:5px; padding:3px 8px; font-size:11px; white-space:nowrap; }
+  #brc-rackcfg .brc-dchip strong { opacity:.55; font-weight:500; margin-right:3px; }
+
+  /* ── Results Summary ────────────────────────────────────── */
+  #brc-rackcfg .brc-rsum { font-size:13px; font-weight:600; color:var(--brc-ink-md); margin-bottom:12px; }
+  #brc-rackcfg .brc-rsum .hi-ok  { color:var(--brc-ok); }
+  #brc-rackcfg .brc-rsum .hi-bad { color:var(--brc-no); }
+
+  /* ── Bundle Cards ───────────────────────────────────────── */
+  #brc-rackcfg .brc-rgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+  #brc-rackcfg .brc-bcard {
+    background:var(--brc-sf); border:2px solid var(--brc-bd);
+    border-radius:var(--brc-rl); padding:16px; position:relative;
+    display:flex; flex-direction:column; gap:9px;
+    transition:box-shadow var(--brc-t);
+  }
+  #brc-rackcfg .brc-bcard--ok  { border-color:var(--brc-ok-bd); background:var(--brc-ok-bg); }
+  #brc-rackcfg .brc-bcard--ok:hover { box-shadow:0 0 0 1px var(--brc-ok),var(--brc-shh); }
+  #brc-rackcfg .brc-bcard--no  { opacity:.55; }
+  #brc-rackcfg .brc-badge {
+    display:inline-flex; align-items:center; gap:4px; align-self:flex-start;
+    font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    padding:3px 8px; border-radius:20px;
+  }
+  #brc-rackcfg .brc-badge--ok   { background:var(--brc-ok); color:var(--brc-sf); border:1px solid var(--brc-ok); font-size:11px; padding:4px 10px; }
+  #brc-rackcfg .brc-badge--warn  { background:rgba(249,221,126,0.28); color:#6B5000; border:1px solid rgba(249,221,126,0.65); }
+  #brc-rackcfg .brc-warn-msg {
+    display:flex; gap:8px; font-size:12px; color:var(--brc-ink-md); line-height:1.5;
+    background:var(--brc-panel); border-left:3px solid var(--brc-oak);
+    border-radius:0 5px 5px 0; padding:9px 12px;
+  }
+  #brc-rackcfg .brc-warn-ic { flex:none; }
+  #brc-rackcfg .brc-warn-bd { min-width:0; }
+  #brc-rackcfg .brc-warn-bd > *:first-child { margin-top:0; }
+  #brc-rackcfg .brc-warn-bd > *:last-child { margin-bottom:0; }
+  #brc-rackcfg .brc-warn-bd p { margin:0 0 6px; }
+  #brc-rackcfg .brc-warn-bd strong { color:var(--brc-ink); }
+  #brc-rackcfg .brc-warn-bd ul { margin:4px 0; padding-left:18px; }
+  #brc-rackcfg .brc-warn-bd li { margin:2px 0; }
+  #brc-rackcfg .brc-badge--no { background:var(--brc-no-bg); color:var(--brc-no); border:1px solid var(--brc-no-bd); font-weight:700; }
+  #brc-rackcfg .brc-ribbon {
+    position:absolute; top:11px; right:11px;
+    background:var(--brc-oak); color:var(--brc-sf);
+    font-size:9px; font-weight:800; letter-spacing:.08em;
+    text-transform:uppercase; padding:2px 7px; border-radius:3px;
+  }
+  #brc-rackcfg .brc-bgrp { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--brc-ink-mu); margin:0 0 1px; }
+  #brc-rackcfg .brc-bnm  { font-size:17px; font-weight:800; color:var(--brc-ink); margin:0; }
+  #brc-rackcfg .brc-btag { font-size:12px; color:var(--brc-ink-md); }
+  #brc-rackcfg .brc-dprow { display:flex; flex-wrap:wrap; gap:4px; }
+  #brc-rackcfg .brc-dpill { background:rgba(26,25,22,.07); border-radius:4px; padding:2px 6px; font-size:11px; color:var(--brc-ink-md); font-weight:500; }
+  #brc-rackcfg .brc-inc { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:3px; }
+  #brc-rackcfg .brc-inc li { font-size:11px; color:var(--brc-ink-md); display:flex; align-items:center; gap:5px; }
+  #brc-rackcfg .brc-inc li::before { content:''; width:4px; height:4px; border-radius:50%; background:var(--brc-oak); flex-shrink:0; }
+  #brc-rackcfg .brc-nofit { font-size:11px; color:var(--brc-no); margin-top:2px; }
+  #brc-rackcfg .brc-bfoot { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:auto; }
+  #brc-rackcfg .brc-bprice { font-size:15px; font-weight:800; color:var(--brc-ink); }
+  #brc-rackcfg .brc-bprice span { font-size:10px; font-weight:400; color:var(--brc-ink-mu); display:block; }
+  #brc-rackcfg .brc-bcta {
+    background:var(--brc-ink); color:var(--brc-sf); border:none;
+    border-radius:7px; padding:8px 13px; font-size:12px; font-weight:700;
+    cursor:pointer; text-decoration:none; display:inline-block;
+    touch-action:manipulation; transition:background var(--brc-t); white-space:nowrap;
+  }
+  #brc-rackcfg .brc-bcta:hover { background:var(--brc-oak-dk); }
+
+  /* ── Mehr laden ─────────────────────────────────────────── */
+  #brc-rackcfg .brc-mehr-wrap { grid-column:1/-1; display:flex; justify-content:center; margin:4px 0; }
+  #brc-rackcfg .brc-mehr {
+    background:var(--brc-sf); border:1.5px solid var(--brc-bd);
+    border-radius:20px; padding:10px 22px;
+    font-size:13px; font-weight:600; color:var(--brc-ink-md);
+    cursor:pointer; touch-action:manipulation; transition:all var(--brc-t);
+  }
+  #brc-rackcfg .brc-mehr:hover { border-color:var(--brc-oak); color:var(--brc-oak); }
+
+  /* ── No match / no filter ───────────────────────────────── */
+  #brc-rackcfg .brc-nomatch {
+    background:var(--brc-sf); border:1.5px dashed var(--brc-bd);
+    border-radius:var(--brc-rl); padding:26px 18px; text-align:center; grid-column:1/-1;
+  }
+  #brc-rackcfg .brc-nomatch h3 { font-size:15px; font-weight:700; color:var(--brc-ink); margin:8px 0 5px; }
+  #brc-rackcfg .brc-nomatch p  { font-size:13px; color:var(--brc-ink-md); margin:0 0 12px; }
+  #brc-rackcfg .brc-cta-btn {
+    display:inline-block; background:var(--brc-oak); color:var(--brc-sf);
+    border-radius:8px; padding:9px 18px; font-size:13px; font-weight:700;
+    text-decoration:none; transition:background var(--brc-t);
+  }
+  #brc-rackcfg .brc-cta-btn:hover { background:var(--brc-oak-dk); }
+  #brc-rackcfg .brc-nofilter { grid-column:1/-1; text-align:center; padding:20px; font-size:13px; color:var(--brc-ink-mu); }
+
+  /* ── Disclaimer ─────────────────────────────────────────── */
+  #brc-rackcfg .brc-disc {
+    background:var(--brc-panel); border-left:3px solid var(--brc-oak);
+    border-radius:0 5px 5px 0; padding:10px 14px; margin-top:22px;
+    font-size:12px; color:var(--brc-ink-md); line-height:1.6;
+  }
+
+  /* ══ RECHNER ════════════════════════════════════════════════ */
+  /* ── Measure accordion ─────────────────────────────────── */
+  #brc-rackcfg .brc-accord {
+    background:var(--brc-panel); border:1.5px solid var(--brc-bd);
+    border-radius:var(--brc-r); margin-bottom:20px; overflow:hidden;
+  }
+  #brc-rackcfg .brc-accord-toggle {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:13px 16px; cursor:pointer; list-style:none;
+    font-size:13px; font-weight:700; color:var(--brc-ink);
+    gap:10px;
+  }
+  #brc-rackcfg .brc-accord-toggle::-webkit-details-marker { display:none; }
+  #brc-rackcfg .brc-accord-toggle::marker { display:none; }
+  #brc-rackcfg .brc-accord-chevron {
+    font-size:16px; color:var(--brc-oak); transition:transform var(--brc-t); flex-shrink:0;
+  }
+  #brc-rackcfg details[open] .brc-accord-chevron { transform:rotate(180deg); }
+  #brc-rackcfg .brc-accord-body {
+    padding:14px 16px 16px; border-top:1px solid var(--brc-bd);
+    display:flex; flex-direction:column; gap:12px;
+  }
+  #brc-rackcfg .brc-guide-row {
+    display:flex; align-items:flex-start; gap:12px;
+  }
+  #brc-rackcfg .brc-guide-ic {
+    width:34px; height:34px; border-radius:50%; flex-shrink:0;
+    background:rgba(26,25,22,0.08); color:var(--brc-oak-dk);
+    font-size:14px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #brc-rackcfg .brc-guide-lbl  { font-size:13px; font-weight:700; color:var(--brc-ink); margin:0 0 1px; display:block; }
+  #brc-rackcfg .brc-guide-desc { font-size:12px; color:var(--brc-ink-mu); line-height:1.4; }
+  #brc-rackcfg .brc-accord-link {
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:13px; font-weight:700; color:var(--brc-oak);
+    text-decoration:none; padding-top:4px; border-top:1px solid var(--brc-bd);
+    transition:color var(--brc-t);
+  }
+  #brc-rackcfg .brc-accord-link:hover { color:var(--brc-oak-dk); }
+
+  /* ── Measurement input fields ────────────────────────────── */
+  #brc-rackcfg .brc-cinputs {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:20px;
+  }
+  #brc-rackcfg .brc-mfield { display:flex; flex-direction:column; gap:6px; }
+  #brc-rackcfg .brc-mfield-lbl {
+    font-size:11px; font-weight:700; letter-spacing:.10em;
+    text-transform:uppercase; color:var(--brc-ink-mu);
+  }
+  #brc-rackcfg .brc-mfield-note { font-size:11.5px; color:var(--brc-ink-mu); line-height:1.4; margin-top:2px; }
+  #brc-rackcfg .brc-mfield-note .brc-min { color:var(--brc-oak-dk); font-weight:600; }
+  #brc-rackcfg .brc-mfield-wrap {
+    display:flex; align-items:center; gap:10px;
+    background:var(--brc-sf); border:2px solid var(--brc-bd);
+    border-radius:var(--brc-r); padding:9px 13px;
+    transition:border-color var(--brc-t), box-shadow var(--brc-t);
+  }
+  #brc-rackcfg .brc-mfield-wrap:focus-within {
+    border-color:var(--brc-oak); box-shadow:0 0 0 3px var(--brc-oak-lt);
+  }
+  #brc-rackcfg .brc-mfield-inp {
+    flex:1; border:none; outline:none; background:none;
+    font-size:20px; font-weight:700; color:var(--brc-ink);
+    width:0; min-width:0; font-family:inherit;
+    -moz-appearance:textfield;
+  }
+  #brc-rackcfg .brc-mfield-inp::placeholder { color:var(--brc-bd); }
+  #brc-rackcfg .brc-mfield-inp::-webkit-inner-spin-button,
+  #brc-rackcfg .brc-mfield-inp::-webkit-outer-spin-button { -webkit-appearance:none; }
+  #brc-rackcfg .brc-mfield-unit {
+    font-size:13px; font-weight:600; color:var(--brc-ink-mu); flex-shrink:0;
+  }
+  #brc-rackcfg .brc-chdr { font-size:13px; font-weight:600; color:var(--brc-ink-md); margin-bottom:12px; }
+
+  /* ── Support-Anfrage ─────────────────────────────────────── */
+  #brc-rackcfg .brc-help {
+    margin-top:28px; padding:22px; background:var(--brc-sf);
+    border:1px solid var(--brc-bd); border-radius:var(--brc-rl);
+  }
+  #brc-rackcfg .brc-help-hd { font-size:17px; font-weight:800; color:var(--brc-ink); }
+  #brc-rackcfg .brc-help-sub { font-size:13px; color:var(--brc-ink-mu); margin:5px 0 16px; line-height:1.4; }
+  #brc-rackcfg .brc-help-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  #brc-rackcfg .brc-mfield-wrap--sm { padding:10px 14px; }
+  #brc-rackcfg .brc-mfield-inp--sm { font-size:16px; font-weight:600; }
+  #brc-rackcfg .brc-help-err { color:var(--brc-no); font-size:13px; font-weight:600; margin:12px 0 0; }
+  #brc-rackcfg .brc-help-btn { margin-top:16px; border:none; cursor:pointer; }
+  #brc-rackcfg .brc-help-hint { font-size:12px; color:var(--brc-ink-mu); margin:10px 0 0; line-height:1.4; }
+  #brc-rackcfg .brc-help-ok { margin:16px 0; padding:14px 16px; background:var(--brc-ok-bg); color:var(--brc-ok); border:1px solid var(--brc-ok-bd); border-radius:var(--brc-rl); font-size:14px; font-weight:600; }
+
+  /* ── Fahrzeug-Hinweise (gebündelt über den Ergebnissen) ─── */
+  #brc-rackcfg .brc-vhints { margin:0 0 18px; }
+  #brc-rackcfg .brc-vhints-hd { font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--brc-ink-md); margin-bottom:8px; }
+  #brc-rackcfg .brc-warn-msg + .brc-warn-msg { margin-top:8px; }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width:600px) {
+    #brc-rackcfg .brc-inner   { padding:28px 14px 44px; }
+    #brc-rackcfg .brc-brands  { grid-template-columns:1fr 1fr; }
+    #brc-rackcfg .brc-rgrid   { grid-template-columns:1fr; }
+    #brc-rackcfg .brc-guide   { grid-template-columns:1fr; }
+    #brc-rackcfg .brc-step__lbl { display:none; }
+    #brc-rackcfg .brc-vbanner { flex-direction:column; }
+    #brc-rackcfg .brc-cinputs { padding:16px 14px; }
+    #brc-rackcfg .brc-filters { padding:14px; }
+    #brc-rackcfg .brc-help-fields { grid-template-columns:1fr; }
+  }
+  @media (min-width:601px) {
+    #brc-rackcfg .brc-models  { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    #brc-rackcfg .brc-guide   { grid-template-columns:repeat(3,1fr); }
+  }
+  /* Desktop: größere, besser lesbare Schrift */
+  @media (min-width:768px) {
+    #brc-rackcfg .brc-sub         { font-size:16px; }
+    #brc-rackcfg .brc-tab         { font-size:14px; }
+    #brc-rackcfg .brc-filter-lbl  { font-size:12px; }
+    #brc-rackcfg .brc-brand-nm    { font-size:15px; }
+    #brc-rackcfg .brc-brand-cnt   { font-size:12px; }
+    #brc-rackcfg .brc-model-nm    { font-size:15px; }
+    #brc-rackcfg .brc-model-yr    { font-size:12px; }
+    #brc-rackcfg .brc-model-dm    { font-size:11px; }
+    #brc-rackcfg .brc-btag        { font-size:13px; }
+    #brc-rackcfg .brc-dpill       { font-size:12px; }
+    #brc-rackcfg .brc-inc li      { font-size:12.5px; }
+    #brc-rackcfg .brc-nofit       { font-size:12px; }
+    #brc-rackcfg .brc-bprice span { font-size:11px; }
+    #brc-rackcfg .brc-bcta        { font-size:13px; }
+    #brc-rackcfg .brc-mehr        { font-size:14px; }
+    #brc-rackcfg .brc-disc        { font-size:13px; }
+    #brc-rackcfg .brc-guide-lbl   { font-size:14px; }
+    #brc-rackcfg .brc-guide-desc  { font-size:13px; }
+    #brc-rackcfg .brc-mfield-lbl  { font-size:12px; }
+    #brc-rackcfg .brc-mfield-note { font-size:12.5px; }
+    #brc-rackcfg .brc-help-sub    { font-size:14px; }
+    #brc-rackcfg .brc-help-hint   { font-size:13px; }
+  }
+</style>
+
+<div class="brc-inner">
+  <p class="brc-eyebrow">Vérification de compatibilité</p>
+  <h2 class="brc-title">Quel RACK convient à ton véhicule ?</h2>
+  <p class="brc-sub">Choisis ton véhicule ou saisis directement les dimensions de ton coffre.</p>
+
+  <div class="brc-toggle" role="tablist">
+    <button class="brc-tab brc-tab--on" id="brc-tab1-rackcfg" role="tab" aria-selected="true">⊙ Choisir le véhicule</button>
+    <button class="brc-tab" id="brc-tab2-rackcfg" role="tab" aria-selected="false">↔ Saisir les dimensions</button>
+  </div>
+
+  <div class="brc-filters" id="brc-filters-rackcfg">
+    <div class="brc-filter-row">
+      <div class="brc-filter-lbl">Type d'aménagement</div>
+      <div class="brc-filter-opts">
+        <button class="brc-pill brc-pill--on" data-ftype="all">Tout afficher</button>
+        <button class="brc-pill" data-ftype="bed">BED Bundle</button>
+        <button class="brc-pill" data-ftype="bedbox">BED + BOX Bundle</button>
+      </div>
+    </div>
+    <div class="brc-filter-row">
+      <div class="brc-filter-lbl">Nombre de personnes</div>
+      <div class="brc-filter-opts">
+        <button class="brc-pill brc-pill--on" data-fpersons="1">1 personne</button>
+        <button class="brc-pill" data-fpersons="2">2 personnes</button>
+      </div>
+      <p class="brc-filter-note" id="brc-fnote-rackcfg"></p>
+    </div>
+  </div>
+
+  <!-- VIEW 1: FAHRZEUG -->
+  <div id="brc-v1-rackcfg">
+    <div class="brc-steps-row">
+      <div class="brc-steps">
+        <div class="brc-step brc-step--active" id="brc-s1-rackcfg"><div class="brc-step__dot"><span>1</span></div><span class="brc-step__lbl">Marque</span></div>
+        <div class="brc-step-ln"></div>
+        <div class="brc-step" id="brc-s2-rackcfg"><div class="brc-step__dot"><span>2</span></div><span class="brc-step__lbl">Modèle</span></div>
+        <div class="brc-step-ln"></div>
+        <div class="brc-step" id="brc-s3-rackcfg"><div class="brc-step__dot"><span>3</span></div><span class="brc-step__lbl">Résultat</span></div>
+      </div>
+      <button class="brc-reset-btn" id="brc-reset-rackcfg">↺ Recommencer</button>
+    </div>
+    <div class="brc-panel" id="brc-p1-rackcfg">
+      <div class="brc-brands" id="brc-brands-rackcfg" role="list"></div>
+    </div>
+    <div class="brc-panel brc-panel--hidden" id="brc-p2-rackcfg">
+      <button class="brc-back" id="brc-bk2-rackcfg">← Autre marque</button>
+      <p class="brc-ph" id="brc-blbl-rackcfg"></p>
+      <div class="brc-models" id="brc-models-rackcfg" role="list"></div>
+    </div>
+    <div class="brc-panel brc-panel--hidden" id="brc-p3-rackcfg">
+      <button class="brc-back" id="brc-bk3-rackcfg">← Autre modèle</button>
+      <div id="brc-vinfo-rackcfg"></div>
+      <div class="brc-rsum" id="brc-vsum-rackcfg"></div>
+      <div class="brc-vhints" id="brc-vhints-rackcfg"></div>
+      <div class="brc-rgrid" id="brc-vgrid-rackcfg" role="list"></div>
+
+      <div class="brc-help" id="brc-help2-rackcfg">
+        <div class="brc-help-hd">Presque terminé !</div>
+        <p class="brc-help-sub">Adresse-toi à notre équipe sur le stand avec ton résultat – nous te conseillons volontiers.</p>
+      </div>
+
+      <p class="brc-disc">ⓘ Toutes les dimensions sont indicatives. Mesure ton coffre avant l’achat.</p>
+    </div>
+  </div>
+
+  <!-- VIEW 2: RECHNER -->
+  <div id="brc-v2-rackcfg" class="brc-hidden">
+    <details class="brc-accord" id="brc-accord-rackcfg">
+      <summary class="brc-accord-toggle">
+        <span>📐 Comment bien mesurer mon coffre ?</span>
+        <span class="brc-accord-chevron">▾</span>
+      </summary>
+      <div class="brc-accord-body">
+        <div class="brc-guide-row">
+          <div class="brc-guide-ic">↔</div>
+          <div><span class="brc-guide-lbl">Longueur du coffre</span><span class="brc-guide-desc">Mesure du hayon jusqu'au dossier des sièges avant.</span></div>
+        </div>
+        <div class="brc-guide-row">
+          <div class="brc-guide-ic">↕</div>
+          <div><span class="brc-guide-lbl">Largeur entre les passages de roue</span><span class="brc-guide-desc">Mesure l'endroit le plus étroit au niveau des passages de roue — pas la largeur extérieure du véhicule.</span></div>
+        </div>
+        <div class="brc-guide-row">
+          <div class="brc-guide-ic">⬍</div>
+          <div><span class="brc-guide-lbl">Hauteur du coffre</span><span class="brc-guide-desc">Mesure du plancher de chargement jusqu’au ciel de toit.</span></div>
+        </div>
+      </div>
+    </details>
+    <div class="brc-cinputs">
+      <div class="brc-mfield">
+        <label class="brc-mfield-lbl" for="brc-vlen-rackcfg">Longueur du coffre</label>
+        <div class="brc-mfield-wrap">
+          <input type="number" class="brc-mfield-inp" id="brc-vlen-rackcfg"
+                 value="200" min="1" max="999" inputmode="numeric" placeholder="p. ex. 243">
+          <span class="brc-mfield-unit">cm</span>
+        </div>
+        <div class="brc-mfield-note">Du hayon au dossier des sièges avant.<span class="brc-min" data-dim="length"></span></div>
+      </div>
+      <div class="brc-mfield">
+        <label class="brc-mfield-lbl" for="brc-vwid-rackcfg">Largeur entre les passages de roue</label>
+        <div class="brc-mfield-wrap">
+          <input type="number" class="brc-mfield-inp" id="brc-vwid-rackcfg"
+                 value="115" min="1" max="999" inputmode="numeric" placeholder="p. ex. 115">
+          <span class="brc-mfield-unit">cm</span>
+        </div>
+        <div class="brc-mfield-note">Endroit le plus étroit entre les passages de roue – le point décisif.<span class="brc-min" data-dim="width"></span></div>
+      </div>
+      <div class="brc-mfield">
+        <label class="brc-mfield-lbl" for="brc-vhgt-rackcfg">Hauteur du coffre</label>
+        <div class="brc-mfield-wrap">
+          <input type="number" class="brc-mfield-inp" id="brc-vhgt-rackcfg"
+                 value="130" min="1" max="999" inputmode="numeric" placeholder="p. ex. 130">
+          <span class="brc-mfield-unit">cm</span>
+        </div>
+        <div class="brc-mfield-note">Du plancher de chargement jusqu’au bord le plus bas.<span class="brc-min" data-dim="height"></span></div>
+      </div>
+    </div>
+    <div class="brc-chdr" id="brc-chdr-rackcfg"></div>
+    <div class="brc-rgrid" id="brc-cgrid-rackcfg" role="list"></div>
+
+    <div class="brc-help" id="brc-help-rackcfg">
+      <div class="brc-help-hd">Presque terminé !</div>
+      <p class="brc-help-sub">Adresse-toi à notre équipe sur le stand avec ton résultat – nous te conseillons volontiers.</p>
+    </div>
+
+    <p class="brc-disc">ⓘ Toutes les dimensions sont indicatives. Mesure ton coffre avant l’achat.</p>
+  </div>
+</div>
+
+<script>
+(function(__run){ if (document.readyState !== 'loading') { __run(); } else { document.addEventListener('DOMContentLoaded', __run); } })(function(){
+  'use strict';
+  var S = 'rackcfg';
+  var root = document.getElementById('brc-' + S);
+  if (!root) return;
+  var T = {
+    badge_ok: "Compatible",
+    badge_warn: "Sous conditions",
+    badge_no: "Non compatible",
+    recommended: "Recommandé",
+    price: "à partir de {price}",
+    price_incl: "TTC",
+    to_bundle: "Voir le bundle",
+    sum_none: "Aucun bundle pour cette combinaison de filtres.",
+    sum_nofit: "Aucun bundle ne rentre dans ce coffre.",
+    sum_fit: "{count} bundles sur {total} rentrent dans ton coffre.",
+    chdr_fit: "{count} bundles sur {total} rentrent dans {size}.",
+    nofilter: "Aucun bundle pour cette combinaison. Ajuste tes filtres.",
+    nomatch_title: "Aucun bundle standard ne convient",
+    nomatch_body: "Aucun bundle ne rentre dans ce coffre – nous t'aidons volontiers.",
+    nomatch_cta: "Demande à notre équipe sur le stand",
+    more_btn: "+ Afficher {count} bundles supplémentaires",
+    models_count: "{count} modèles",
+    choose_model: "{brand} – choisir le modèle",
+    warn_title: "Compatible sous conditions",
+    your_vehicle: "Ton véhicule",
+    vehicle_hints: "Remarques sur ton véhicule",
+    too_long: "Trop long ({value} > {max} cm)",
+    too_wide: "Trop large ({value} > {max} cm entre passages de roue)",
+    min_hint: "min. {value} cm",
+    dim_labels: "l, H, L",
+    year_today: "aujourd'hui",
+    year_all: "toutes"
+  };
+  var DL = (T.dim_labels || 'B, H, L').split(',').map(function(x){return x.trim();});
+  var showPrice  = root.dataset.showPrice === 'true';
+  var contactUrl = root.dataset.contactUrl || '/pages/kontakt';
+  var SHOW_INIT  = 4;
+  function fillMinHints(){
+    if(typeof BD==='undefined'||!BD.length) return;
+    var mins={length:Infinity,width:Infinity,height:Infinity};
+    BD.forEach(function(b){ if(b.len<mins.length)mins.length=b.len; if(b.wid<mins.width)mins.width=b.wid; if(b.hgt<mins.height)mins.height=b.hgt; });
+    root.querySelectorAll('.brc-min').forEach(function(el){
+      var d=el.dataset.dim; if(mins[d]&&isFinite(mins[d])) el.textContent=' · '+T.min_hint.replace('{value}',mins[d]);
+    });
+  }
+  function goForm(params){
+    var base=(root.dataset.formUrl||'').trim();
+    if(!base){ return; }
+    var q=Object.keys(params).filter(function(k){return params[k]!=null;})
+          .map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(params[k]);}).join('&');
+    if(base.charAt(0)==='#'){
+      // Gleiche Seite: mit Parametern neu laden, damit das Formular sie auslesen kann; der Anker scrollt zum Formular.
+      window.location.href = window.location.pathname + (q?('?'+q):'') + base;
+    } else {
+      window.location.href = base + (q ? (base.indexOf('?')>-1?'&':'?')+q : '');
+    }
+  }
+
+  /* ═══ VEHICLE DATA ════════════════════════════════════════
+     Kompatibilit\u00e4ts-Matrix aus Google Sheets (direkt von BOXIO gepflegt)
+     c(str) kodiert 10 Bundle-Zust\u00e4nde: k=ok  w=bedingt  n=nicht
+     Reihenfolge: bed-xs bed-s bed-m bed-l bed-xl  bbox-s bbox-m bbox-l bbox-xl bbox-xxl
+     warning = Kundentext f\u00fcr alle 'bedingt'-Bundles dieses Fahrzeugs
+               (\u26a0 Platzhalter \u2014 finale Texte werden nachgeliefert)
+  ══════════════════════════════════════════════════════════ */
+  var IDS=['bed-xs','bed-s','bed-m','bed-l','bed-xl','bbox-s','bbox-m','bbox-l','bbox-xl','bbox-xxl'];
+  function c(s){var m={},ch=s.replace(/ /g,'');IDS.forEach(function(id,i){m[id]=ch[i]==='k'?'ok':ch[i]==='w'?'warn':'no';});return m;}
+
+  /* Hinweis-Katalog (aus Theme-Editor / Translate & Adapt) */
+  var WARN = {
+    1: "<p><strong>Important :</strong> pas d’anneaux d’arrimage d’origine. Pour une fixation sûre, installe au préalable des points d’ancrage solides dans ton plancher de chargement.</p>",
+    2: "<p><strong>Vérification de la largeur : mesure l’endroit le plus étroit.</strong></p><p>Mesure l’endroit le plus étroit de ton coffre. C’est très juste ? Choisis plutôt la variante plus petite – quelques millimètres suffisent à décider du montage.</p>",
+    3: "<p><strong>Vérification de la hauteur</strong></p><ul><li>80 cm de hauteur minimale (pour déplier le lit)</li><li>100 cm recommandés (pour un bon dégagement au-dessus de la tête)</li></ul><p>Seuil de chargement surélevé ? Pour que le tiroir-table fonctionne, le module doit être surélevé (p. ex. avec BOXIO FOOT). Ajoute simplement la hauteur du seuil à la hauteur minimale (80 cm).</p>",
+    4: "<p><strong>Vérification de la longueur du coffre :</strong></p><ul><li>2,00 m (standard) : souvent atteignable en avançant légèrement les sièges avant.</li><li>1,80 m (compact) : en cas de place réduite, le module BED peut être raccourci de façon flexible.</li></ul>",
+    5: "<p><strong>Est-ce que ça rentre dans ta voiture ?</strong></p><p>Nous n’avons malheureusement pas de données de mesure précises pour ton modèle, mais le rack convient généralement sans problème. Vérifie par sécurité les dimensions du bundle (largeur, longueur, hauteur) directement dans ton coffre.</p>",
+  };
+  function hintHtml(nums){return (nums||[]).map(function(n){var t=WARN[n];return t?'<div class="brc-warn-msg"><span class="brc-warn-ic">\u26a0\ufe0f</span><div class="brc-warn-bd">'+t+'</div></div>':'';}).join('');}
+
+  var VD = {
+    VW: { label:'Volkswagen', initial:'VW', models:[
+      { name:'Caddy',                   years:'2020\u2013heute',  compat:c('kkknn kkknn'), w:[] },
+      { name:'Caddy Maxi',              years:'2020\u2013heute',  compat:c('kkknn kkknn'), w:[] },
+      { name:'T5',                      years:'2003\u20132015',  compat:c('kkkwn kkkwn'), w:[2] },
+      { name:'T6 / T6.1',              years:'2015\u2013heute',  compat:c('kkkwn kkkwn'), w:[2] },
+      { name:'T7 Multivan',             years:'2021\u2013heute',  compat:c('kkkwn kkknn'), w:[2] },
+      { name:'T7 California',           years:'2021\u2013heute',  compat:c('wwnnn wnnnn'), w:[5] },
+      { name:'ID Buzz SWB',             years:'2022\u2013heute',  compat:c('kkknn kkknn'), w:[4] },
+      { name:'ID Buzz LWB',             years:'2023\u2013heute',  compat:c('kkknn kkknn'), w:[] },
+      { name:'ID Buzz',                 years:'2022\u2013heute',  compat:c('kkknn kkknn'), w:[4] },
+      { name:'Touran',                  years:'2015\u2013heute',  compat:c('kknnn wnnnn'), w:[3] },
+      { name:'Sharan',                  years:'2010\u2013heute',  compat:c('kkwnn kknnn'), w:[2] },
+      { name:'Tiguan',                  years:'2016\u2013heute',  compat:c('kknnn nnnnn'), w:[4] },
+      { name:'Passat Variant',          years:'2014\u2013heute',  compat:c('kknnn nnnnn'), w:[] },
+      { name:'T4 Multivan',             years:'bis\u00a02003',    compat:c('wwwnn wwwnn'), w:[5] },
+      { name:'ID.3',                    years:'2020\u2013heute',  compat:c('wwnnn nnnnn'), w:[4] },
+    ]},
+    Kia: { label:'Kia', initial:'Kia', models:[
+      { name:'PV5 Passenger',           years:'2025\u2013heute',  compat:c('kkkwn kkkwn'), w:[1, 2] },
+      { name:'PV5 Cargo',               years:'2025\u2013heute',  compat:c('kkkkw kkkkn'), w:[2] },
+    ]},
+    Renault: { label:'Renault', initial:'Rn.', models:[
+      { name:'Kangoo / Grand Kangoo',   years:'2021\u2013heute',  compat:c('kkkww kkknn'), w:[2] },
+      { name:'Trafic L1',              years:'2014\u2013heute',  compat:c('kkkwn kkkwn'), w:[2] },
+      { name:'Trafic L2',              years:'2014\u2013heute',  compat:c('kkkwn kkkwn'), w:[2] },
+      { name:'4 E-Tech',               years:'2023\u2013heute',  compat:c('wwnnn nnnnn'), w:[5] },
+    ]},
+    Citroen: { label:'Citro\u00ebn', initial:'Cit.', models:[
+      { name:'Berlingo',                years:'2018\u2013heute',  compat:c('kkknn kkknn'), w:[] },
+      { name:'SpaceTourer',             years:'2016\u2013heute',  compat:c('kkknn kkknn'), w:[] },
+      { name:'Jumpy',                   years:'2016\u2013heute',  compat:c('kkkwn kkkwn'), w:[2] },
+      { name:'C5 Aircross',            years:'2018\u2013heute',  compat:c('kknnn nnnnn'), w:[] },
+      { name:'C3 Picasso',             years:'2009\u20132017',  compat:c('wwnnn nnnnn'), w:[4] },
+    ]},
+    Ford: { label:'Ford', initial:'Ford', models:[
+      { name:'Tourneo / Transit Custom', years:'2012\u2013heute', compat:c('kkkwn kkkwn'), w:[2] },
+      { name:'Transit Courier / Connect',years:'2014\u2013heute', compat:c('kkknn kkknn'), w:[] },
+      { name:'Mondeo Kombi',            years:'2014\u20132022',  compat:c('kknnn nnnnn'), w:[] },
+    ]},
+    Peugeot: { label:'Peugeot', initial:'Peu.', models:[
+      { name:'Rifter',                  years:'2018\u2013heute',  compat:c('kkkwn kkknn'), w:[2] },
+      { name:'Expert',                  years:'2016\u2013heute',  compat:c('kkkwn kkkwn'), w:[2] },
+      { name:'307 Break',              years:'2002\u20132008',  compat:c('wwnnn nnnnn'), w:[4] },
+      { name:'Partner',                 years:'2018\u2013heute',  compat:c('wwwnn wwwnn'), w:[4] },
+    ]},
+    Fiat: { label:'Fiat', initial:'Fiat', models:[
+      { name:'Ducato',                  years:'2006\u2013heute',  compat:c('kkkkk kkkkw'), w:[2] },
+      { name:'Doblò',                  years:'2022\u2013heute',  compat:c('kkkwn kkknn'), w:[2, 3] },
+      { name:'Scudo',                   years:'2022\u2013heute',  compat:c('kkkwn kkkwn'), w:[2] },
+      { name:'Talento',                 years:'2016\u2013heute',  compat:c('kkkwn kkkwn'), w:[2] },
+      { name:'Freemont Urban',          years:'2011\u20132016',  compat:c('kknnn nnnnn'), w:[] },
+      { name:'Tipo Kombi',             years:'2016\u2013heute',  compat:c('wwnnn nnnnn'), w:[4] },
+    ]},
+    Dacia: { label:'Dacia', initial:'Dac.', models:[
+      { name:'Jogger',                  years:'2022\u2013heute',  compat:c('kkkwn wwwnn'), w:[2, 3, 4] },
+      { name:'Duster',                  years:'2018\u2013heute',  compat:c('kknnn nnnnn'), w:[4] },
+      { name:'Bigster',                 years:'2025\u2013heute',  compat:c('kknnn nnnnn'), w:[] },
+      { name:'Lodgy',                   years:'2012\u20132023',  compat:c('wwwnn wwnnn'), w:[3, 4] },
+      { name:'Dokker',                  years:'2012\u20132022',  compat:c('wwwnn wwnnn'), w:[4] },
+    ]},
+    Opel: { label:'Opel / Vauxhall', initial:'Opel', models:[
+      { name:'Vivaro',                  years:'2019\u2013heute',  compat:c('kkkwn kkkwn'), w:[2] },
+      { name:'Combo Life',             years:'2018\u2013heute',  compat:c('kkknn kkwnn'), w:[2] },
+      { name:'Zafira Life',            years:'2019\u2013heute',  compat:c('kkknn kkknn'), w:[] },
+      { name:'Movano L2H2',            years:'2010\u2013heute',  compat:c('kkkkk kkkkw'), w:[2] },
+      { name:'Meriva',                  years:'2010\u20132017',  compat:c('wwnnn nnnnn'), w:[4] },
+      { name:'Corsa',                   years:'2019\u2013heute',  compat:c('nnnnn nnnnn'), w:[] },
+    ]},
+    Toyota: { label:'Toyota', initial:'Toy.', models:[
+      { name:'Proace',                  years:'2016\u2013heute',  compat:c('kkkwn kkwnn'), w:[4] },
+      { name:'Proace City',            years:'2019\u2013heute',  compat:c('kkknn kkknn'), w:[] },
+      { name:'Land Cruiser',           years:'alle',             compat:c('wwwnn wwnnn'), w:[3, 4] },
+      { name:'Avensis Kombi',          years:'2002\u20132018',  compat:c('kknnn nnnnn'), w:[] },
+    ]},
+    MB: { label:'Mercedes-Benz', initial:'MB', models:[
+      { name:'Vito',                    years:'2014\u2013heute',  compat:c('kkkwn kkkwn'), w:[2] },
+      { name:'C-Klasse Kombi',         years:'2014\u2013heute',  compat:c('wwnnn nnnnn'), w:[4] },
+      { name:'GLK',                     years:'2008\u20132015',  compat:c('wwnnn nnnnn'), w:[4] },
+    ]},
+    LandRover: { label:'Land Rover', initial:'LR', models:[
+      { name:'Defender',                years:'2020\u2013heute',  compat:c('kknnn nnnnn'), w:[4] },
+    ]},
+    Subaru: { label:'Subaru', initial:'Sub.', models:[
+      { name:'Forester',                years:'alle',             compat:c('kkwnn nnnnn'), w:[2] },
+    ]},
+    BMW: { label:'BMW', initial:'BMW', models:[
+      { name:'X3',                      years:'alle',             compat:c('kkwnn nnnnn'), w:[2] },
+    ]},
+    Mazda: { label:'Mazda', initial:'Maz.', models:[
+      { name:'CX-5',                    years:'alle',             compat:c('kknnn nnnnn'), w:[4] },
+    ]},
+    Hyundai: { label:'Hyundai', initial:'Hyn.', models:[
+      { name:'Terracan',                years:'2001\u20132008',  compat:c('wwnnn nnnnn'), w:[5] },
+      { name:'Tucson',                  years:'alle',             compat:c('wwnnn nnnnn'), w:[4] },
+      { name:'ix35',                    years:'2010\u20132015',  compat:c('kknnn nnnnn'), w:[4] },
+    ]},
+    Suzuki: { label:'Suzuki', initial:'Suz.', models:[
+      { name:'Jimny',                   years:'alle',             compat:c('nnnnn nnnnn'), w:[] },
+    ]},
+    Chrysler: { label:'Chrysler', initial:'Chr.', models:[
+      { name:'Grand Voyager',           years:'alle',             compat:c('kkkkn kkknn'), w:[] },
+    ]},
+    Skoda: { label:'Skoda', initial:'Sko.', models:[
+      { name:'Octavia',                 years:'alle',             compat:c('kknnn nnnnn'), w:[] },
+      { name:'Fabia',                   years:'alle',             compat:c('wwnnn nnnnn'), w:[5] },
+      { name:'Enyaq',                   years:'2020\u2013heute',  compat:c('wwnnn nnnnn'), w:[4] },
+      { name:'Elroq',                   years:'2025\u2013heute',  compat:c('wwnnn nnnnn'), w:[4] },
+    ]},
+    Jeep: { label:'Jeep', initial:'Jeep', models:[
+      { name:'Grand Cherokee',          years:'alle',             compat:c('kkwnn nnnnn'), w:[2] },
+      { name:'Wrangler',                years:'alle',             compat:c('wwnnn wnnnn'), w:[4] },
+    ]},
+    Tesla: { label:'Tesla', initial:'Tsl.', models:[
+      { name:'Model Y',                 years:'2020\u2013heute',  compat:c('kknnn nnnnn'), w:[] },
+    ]},
+    Nissan: { label:'Nissan', initial:'Nis.', models:[
+      { name:'Townstar',                years:'2022\u2013heute',  compat:c('kkkwn kkwnn'), w:[2] },
+      { name:'NV200',                   years:'2009\u2013heute',  compat:c('wwwnn wwwnn'), w:[4] },
+    ]},
+    Volvo: { label:'Volvo', initial:'Vol.', models:[
+      { name:'V50',                     years:'2004\u20132012',  compat:c('wwnnn nnnnn'), w:[4] },
+    ]},
+    Porsche: { label:'Porsche', initial:'Por.', models:[
+      { name:'911',                     years:'alle',             compat:c('nnnnn nnnnn'), w:[] },
+    ]},
+  };
+
+/* ═══ BUNDLE DATA ═════════════════════════════════════════
+     ⚠ PLATZHALTER – alle Maße mit echten Werten ersetzen!
+     Felder:
+       len  = benötigte Laderaum-Länge (cm)
+       wid  = benötigte Breite zwischen Radkästen (cm)
+       hgt  = Aufbauhöhe des Systems (cm)
+       bed  = Schlafflächenlänge ausgeklappt (cm)
+       persons = 1 (Einzel) | 2 (Doppel/XXL)
+       rec  = true → zeigt "Empfohlen"-Ribbon
+       url  = /products/HANDLE   ← anpassen!
+  ═══════════════════════════════════════════════════════════ */
+  /* ── Letzte Aktualisierung: aus Bundle-Datenblatt übernommen ──
+     len = benötigte Laderaum-Länge (cm)   – Toleranz bereits eingerechnet
+     wid = benötigte Breite zw. Radkästen (cm)
+     hgt = benötigte Laderaum-Höhe (cm)
+     bed = Schlafflächenlänge (cm, Anzeige)
+     url = /products/HANDLE (echte Shopify-Handles)
+     Preise sind noch Platzhalter (kommen sonst aus dem Produkt).
+  ══════════════════════════════════════════════════════════ */
+  var BD = [
+    /* ── BOXIO BED Bundle ─────────────────────────────────── */
+    { id:'bed-xs', grp:'BOXIO BED Bundle',      nm:'BED Bundle XS',    tag:'Kompaktes Einpersonenbett',
+      len:180, wid:55, hgt:100, bed:180, persons:1, rec:false,
+      inc:['1 x BOXIO RACK BED M (inkl. 1 FOOT)','2 x BOXIO RACK FOOT'],
+      price:"",   url:"https://www.myboxio.de/products/boxio-rack-bed-bundle-xs-modulares-campingbett" },
+    { id:'bed-s',  grp:'BOXIO BED Bundle',      nm:'BED Bundle S',     tag:'Für kleine Fahrzeuge',
+      len:180, wid:68, hgt:100, bed:180, persons:1, rec:false,
+      inc:['1 x BOXIO RACK BED L (inkl. 1 FOOT)','2 x BOXIO RACK FOOT'],
+      price:"",   url:"https://www.myboxio.de/products/boxio-rack-bed-bundle-s-modulares-campingbett" },
+    { id:'bed-m',  grp:'BOXIO BED Bundle',      nm:'BED Bundle M',     tag:'Bestseller',
+      len:180, wid:110, hgt:100, bed:180, persons:2, rec:true,
+      inc:['2 x BOXIO RACK BED M (inkl. 1 FOOT)','3 x BOXIO RACK FOOT'],
+      price:"",   url:"https://www.myboxio.de/products/boxio-rack-bed-bundle-m-modulares-campingbett" },
+    { id:'bed-l',  grp:'BOXIO BED Bundle',      nm:'BED Bundle L',     tag:'Für große Fahrzeuge',
+      len:180, wid:121, hgt:100, bed:180, persons:2, rec:false,
+      inc:['1 x BOXIO RACK BED M (inkl. 1 FOOT)','1 x BOXIO RACK BED L (inkl. 1 FOOT)','2 x BOXIO RACK FOOT'],
+      price:"",   url:"https://www.myboxio.de/products/boxio-rack-bed-bundle-l-modulares-campingbett" },
+    { id:'bed-xl', grp:'BOXIO BED Bundle',      nm:'BED Bundle XL',    tag:'Maximale Liegelänge',
+      len:180, wid:133, hgt:100, bed:180, persons:2, rec:false,
+      inc:['1 x BOXIO RACK BED M (inkl. 1 FOOT)','2 x BOXIO RACK FOOT'],
+      price:"", url:"https://www.myboxio.de/products/boxio-rack-bed-bundle-xl-modulares-campingbett" },
+    /* ── BOXIO BED + BOX Bundle ───────────────────────────── */
+    { id:'bbox-s', grp:'BOXIO BED + BOX Bundle',nm:'BED+BOX Bundle S', tag:'Schlafen & Verstauen',
+      len:180, wid:65, hgt:90, bed:180, persons:1, rec:false,
+      inc:['1 x BOXIO RACK BED L (inkl. 1 x BOXIO RACK FOOT)','1 x BOXIO RACK BOX L'],
+      price:"", url:"https://www.myboxio.de/products/boxio-rack-bundle-s-modulare-campingbox" },
+    { id:'bbox-m', grp:'BOXIO BED + BOX Bundle',nm:'BED+BOX Bundle M', tag:'Ausgewogen',
+      len:180, wid:106, hgt:90, bed:180, persons:2, rec:true,
+      inc:['2 x BOXIO RACK BED M (inkl. 2 x BOXIO RACK FOOT)','1 x BOXIO RACK BOX S','1 x BOXIO RACK BOX L'],
+      price:"", url:"https://www.myboxio.de/products/boxio-rack-bundle-m-modulare-campingbox" },
+    { id:'bbox-l', grp:'BOXIO BED + BOX Bundle',nm:'BED+BOX Bundle L', tag:'Unser Bestseller',
+      len:180, wid:116, hgt:90, bed:180, persons:2, rec:false,
+      inc:['1 x BOXIO RACK BED M (inkl. 1 x BOXIO RACK FOOT)','1 x BOXIO RACK BED L (inkl. 1 x BOXIO RACK FOOT)','1 x BOXIO RACK BOX M','1 x BOXIO RACK BOX L'],
+      price:"", url:"https://www.myboxio.de/products/boxio-rack-bundle-l-modulare-campingbox" },
+    { id:'bbox-xl',grp:'BOXIO BED + BOX Bundle',nm:'BED+BOX Bundle XL',tag:'Maximaler Stauraum',
+      len:180, wid:129, hgt:90, bed:180, persons:2, rec:false,
+      inc:['2 x BOXIO RACK BED L (inkl. 1 x BOXIO RACK FOOT)','2 x BOXIO RACK BOX L'],
+      price:"", url:"https://www.myboxio.de/products/boxio-rack-box-bed-bundle-xl-modulare-campingbox" },
+    { id:'bbox-xxl',grp:'BOXIO BED + BOX Bundle',nm:'BED+BOX Bundle XXL',tag:'Für 2 Personen',
+      len:180, wid:168, hgt:90, bed:180, persons:2, rec:false,
+      inc:['2 x BOXIO RACK BED M (inkl. 1 x BOXIO RACK FOOT)','1 x BOXIO RACK BED L (inkl. 1 x BOXIO RACK FOOT)','1 x BOXIO RACK BOX S','1 x BOXIO RACK BOX M','1 x BOXIO RACK BOX L'],
+      price:"", url:"https://www.myboxio.de/products/boxio-rack-bundle-xxl-modulare-campingbox" },
+  ];
+
+  /* ═══ FILTER ══════════════════════════════════════════════ */
+  var F = { type:'all', persons:1 };
+  function filtered() {
+    return BD.filter(function(b){
+      if (F.type==='bed'    && b.id.indexOf('bed-')!==0)  return false;
+      if (F.type==='bedbox' && b.id.indexOf('bbox-')!==0) return false;
+      if (F.persons===2 && b.persons<2)                   return false;
+      return true;
+    });
+  }
+
+  /* ═══ COMPAT ══════════════════════════════════════════════ */
+  function compat(b, modelOrDims) {
+    if (modelOrDims && modelOrDims.compat) {
+      // Vehicle mode — precomputed matrix
+      var status = modelOrDims.compat[b.id] || 'no';
+      if (status === 'ok')   return { ok:true };
+      if (status === 'warn') return { ok:true, warn:true, w:modelOrDims.w||[] };
+      return { ok:false };
+    }
+    // Calculator mode — dimensional check
+    var lo=b.len<=modelOrDims.cargoLength, wo=b.wid<=modelOrDims.cargoWidth, ho=b.hgt<=modelOrDims.cargoHeight;
+    if (lo&&wo&&ho) return { ok:true };
+    var why=[];
+    if (!lo) why.push(T.too_long.replace('{value}',b.len).replace('{max}',modelOrDims.cargoLength));
+    if (!wo) why.push(T.too_wide.replace('{value}',b.wid).replace('{max}',modelOrDims.cargoWidth));
+    return { ok:false, why:why };
+  }
+
+  /* ═══ RENDER RESULTS ══════════════════════════════════════ */
+  function renderResults(gridEl, sumEl, dims, showMore, onMore) {
+    var bundles = filtered();
+    var results = bundles.map(function(b){ return {b:b, c:compat(b,dims)}; });
+    // Vollständig passende zuerst, dann bedingt; innerhalb jeweils größtes zuerst
+    results.sort(function(a,b){
+      if (a.c.ok!==b.c.ok) return a.c.ok?-1:1;
+      if (a.c.warn!==b.c.warn) return a.c.warn?1:-1;
+      return b.b.wid - a.b.wid;
+    });
+    var okList=results.filter(function(r){return r.c.ok;}),
+        noList=results.filter(function(r){return !r.c.ok;}),
+        nOk=okList.length;
+    // Empfohlen = größtes vollständig passendes Bundle; BED+BOX wird bevorzugt, wenn eine passende BED+BOX-Variante existiert
+    var recIdx=-1;
+    for (var _ri=0;_ri<okList.length;_ri++){ if(!okList[_ri].c.warn && okList[_ri].b.id.indexOf('bbox-')===0){ recIdx=_ri; break; } }
+    if(recIdx<0){ for (var _rj=0;_rj<okList.length;_rj++){ if(!okList[_rj].c.warn){ recIdx=_rj; break; } } }
+    if(recIdx>=0) okList[recIdx].isRec=true;
+
+    if (sumEl) {
+      if (!bundles.length) { sumEl.innerHTML=T.sum_none; }
+      else if (!nOk) { sumEl.innerHTML='<span class="hi-bad">'+T.sum_nofit+'</span>'; }
+      else { sumEl.innerHTML=T.sum_fit.replace('{count}','<span class="hi-ok">'+nOk+'</span>').replace('{total}',bundles.length); }
+    }
+    gridEl.innerHTML='';
+    if (!bundles.length) {
+      var nf=document.createElement('div'); nf.className='brc-nofilter';
+      nf.textContent=T.nofilter;
+      gridEl.appendChild(nf); return;
+    }
+    if (!nOk) {
+      var nm=document.createElement('div'); nm.className='brc-nomatch';
+      nm.innerHTML='<div style="font-size:30px">🔧</div><h3>'+T.nomatch_title+'</h3>'
+        +'<p>'+T.nomatch_body+'</p>'
+        +'<a href="'+contactUrl+'" class="brc-cta-btn">'+T.nomatch_cta+'</a>';
+      gridEl.appendChild(nm); return;
+    }
+    // Kompatible (max SHOW_INIT oder alle)
+    var visOk=showMore?okList:okList.slice(0,SHOW_INIT);
+    visOk.forEach(function(r){gridEl.appendChild(makeCard(r));});
+    if (!showMore && okList.length>SHOW_INIT) {
+      var mw=document.createElement('div'); mw.className='brc-mehr-wrap';
+      var mb=document.createElement('button'); mb.className='brc-mehr';
+      mb.textContent=T.more_btn.replace('{count}',(okList.length-SHOW_INIT));
+      mb.addEventListener('click',function(){onMore();});
+      mw.appendChild(mb); gridEl.appendChild(mw);
+    }
+    // Nicht-kompatible immer darunter
+    noList.forEach(function(r){gridEl.appendChild(makeCard(r));});
+  }
+
+  function makeCard(r) {
+    var b=r.b, c=r.c;
+    var card=document.createElement('div');
+    card.className='brc-bcard'+(c.ok?' brc-bcard--ok':' brc-bcard--no');
+    card.setAttribute('role','listitem');
+    var badge=c.ok&&c.warn
+      ?'<div class="brc-badge brc-badge--warn">⚠ '+T.badge_warn+'</div>'
+      :c.ok?'<div class="brc-badge brc-badge--ok">✓ '+T.badge_ok+'</div>'
+           :'<div class="brc-badge brc-badge--no">✗ '+T.badge_no+'</div>';
+    var ribbon=(r.isRec)?'<div class="brc-ribbon">'+T.recommended+'</div>':'';
+    var warnMsg='';  /* Hinweise erscheinen gebündelt über den Ergebnissen (brc-vhints) */
+    var why=c.ok?'':c.why?c.why.map(function(w){return '<div class="brc-nofit">⚠ '+w+'</div>';}).join(''):'';
+    var price=(showPrice&&b.price)?'<div class="brc-bprice">'+T.price.replace('{price}',b.price)+'<span>'+T.price_incl+'</span></div>':'';
+    var cta=c.ok?'<a href="'+b.url+'" class="brc-bcta">'+T.to_bundle+' →</a>':'';
+    var inc=b.inc.map(function(i){return '<li>'+i+'</li>';}).join('');
+    card.innerHTML=ribbon+badge
+      +'<div><div class="brc-bgrp">'+b.grp+'</div><div class="brc-bnm">'+b.nm+'</div></div>'
+      +'<div class="brc-dprow"><span class="brc-dpill">'+DL[0]+' '+b.wid+' cm</span><span class="brc-dpill">'+DL[1]+' '+b.hgt+' cm</span><span class="brc-dpill">'+DL[2]+' '+b.bed+' cm</span></div>'
+      +warnMsg+why+'<ul class="brc-inc">'+inc+'</ul>'
+      +'<div class="brc-bfoot">'+price+cta+'</div>';
+    return card;
+  }
+
+  /* ═══ VEHICLE FLOW ════════════════════════════════════════ */
+  var selBrand=null, selModel=null, vMore=false;
+  var inited=false;
+  function setStep(n) {
+    [1,2,3].forEach(function(i){
+      var p=g('brc-p'+i+'-'+S), s=g('brc-s'+i+'-'+S); if(!p||!s) return;
+      p.classList.toggle('brc-panel--hidden',i!==n);
+      s.classList.toggle('brc-step--active',i===n);
+      s.classList.toggle('brc-step--done',i<n);
+      s.querySelector('.brc-step__dot span').textContent=i<n?'✓':String(i);
+    });
+    // Show reset button from step 2 onwards
+    var rb=g('brc-reset-'+S);
+    if(rb) rb.classList.toggle('brc-reset-btn--on', n>1);
+    // Mobile: scroll to step row so new panel content is visible immediately
+    if (inited && window.innerWidth < 768) {
+      setTimeout(function(){
+        var stepsRow = root.querySelector('.brc-steps-row');
+        if (stepsRow) {
+          var top = stepsRow.getBoundingClientRect().top + window.scrollY - 12;
+          window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
+        }
+      }, 60);
+    }
+  }
+  function renderBrands() {
+    var gr=g('brc-brands-'+S); gr.innerHTML='';
+    Object.keys(VD).sort(function(a,b){return VD[a].label.localeCompare(VD[b].label,'de');}).forEach(function(k){
+      var b=VD[k], c=document.createElement('div');
+      c.className='brc-brand-card'; c.setAttribute('role','listitem'); c.setAttribute('tabindex','0');
+      c.innerHTML='<div class="brc-brand-nm">'+b.label+'</div>'
+        +'<div class="brc-brand-cnt">'+T.models_count.replace('{count}',b.models.length)+'</div>';
+      var go=function(){selBrand=k;renderModels(k);setStep(2);};
+      c.addEventListener('click',go);
+      c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+      gr.appendChild(c);
+    });
+  }
+  function renderModels(k) {
+    var b=VD[k]; g('brc-blbl-'+S).textContent=T.choose_model.replace('{brand}',b.label);
+    var li=g('brc-models-'+S); li.innerHTML='';
+    b.models.forEach(function(m){
+      var c=document.createElement('div');
+      c.className='brc-model-card'; c.setAttribute('role','listitem'); c.setAttribute('tabindex','0');
+      var hw=Object.keys(m.compat).some(function(k){return m.compat[k]==='warn';});
+      c.innerHTML='<div style="flex:1"><div class="brc-model-nm">'+m.name+'</div>'
+        +'<div class="brc-model-yr">'+((m.years==='alle')?T.year_all:m.years.split('heute').join(T.year_today))+'</div></div>'
+        +(hw?'<span style="font-size:12px;color:var(--brc-oak);flex-shrink:0" title="'+T.warn_title+'">⚠</span>':'')
+        +'<span class="brc-model-ar">›</span>';
+      var go=function(){selModel=m;vMore=false;renderVRes(m);setStep(3);};
+      c.addEventListener('click',go);
+      c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+      li.appendChild(c);
+    });
+  }
+  function renderVRes(m) {
+    var bl=VD[selBrand].label;
+    g('brc-vinfo-'+S).innerHTML='<div class="brc-vbanner">'
+      +'<div class="brc-vbanner__lbl">'+T.your_vehicle+'</div>'
+      +'<div class="brc-vbanner__nm">'+bl+' '+m.name+'</div>'
+      +'</div>';
+    var vh=g('brc-vhints-'+S);
+    if(vh){ vh.innerHTML=(m.w&&m.w.length)?'<div class="brc-vhints-hd">'+T.vehicle_hints+'</div>'+hintHtml(m.w):''; }
+    renderResults(g('brc-vgrid-'+S),g('brc-vsum-'+S),m,vMore,function(){vMore=true;renderVRes(selModel);});
+  }
+  g('brc-bk2-'+S).addEventListener('click',function(){setStep(1);});
+  g('brc-bk3-'+S).addEventListener('click',function(){renderModels(selBrand);setStep(2);});
+  renderBrands(); setStep(1);
+  fillMinHints();
+  inited=true;
+
+  /* ═══ SUPPORT-ANFRAGE (Fahrzeug-Modus → externes Formular) ═ */
+  (function(){
+    var btn=g('brc-hsend2-'+S); if(!btn) return;
+    btn.addEventListener('click',function(){
+      var veh = selModel ? (VD[selBrand].label+' '+selModel.name) : '';
+      goForm({ Fahrzeugtyp: veh, 'Maße':'' });
+    });
+  })();
+
+  /* ═══ RECHNER ═════════════════════════════════════════════ */
+  var CD={cargoLength:200,cargoWidth:115,cargoHeight:130}, cMore=false, cT=null;
+  function bindNum(id,key){
+    var ni=g(id); if(!ni) return;
+    ni.addEventListener('input',function(){
+      var v=parseInt(ni.value,10);
+      if(!isNaN(v)&&v>0){ CD[key]=v; cMore=false; clearTimeout(cT); cT=setTimeout(calcRender,250); }
+    });
+    ni.addEventListener('blur',function(){
+      var v=parseInt(ni.value,10);
+      if(isNaN(v)||v<1) ni.value=CD[key];
+      else { CD[key]=v; cMore=false; calcRender(); }
+    });
+  }
+  bindNum('brc-vlen-'+S,'cargoLength');
+  bindNum('brc-vwid-'+S,'cargoWidth');
+  bindNum('brc-vhgt-'+S,'cargoHeight');
+  function calcRender(){
+    var n=filtered().filter(function(b){return compat(b,CD).ok;}).length;
+    g('brc-chdr-'+S).innerHTML=T.chdr_fit.replace('{count}','<span class="hi-ok">'+n+'</span>').replace('{total}',filtered().length).replace('{size}',CD.cargoLength+' × '+CD.cargoWidth+' × '+CD.cargoHeight+' cm');
+    renderResults(g('brc-cgrid-'+S),null,CD,cMore,function(){cMore=true;calcRender();});
+  }
+  calcRender();
+
+  /* ═══ SUPPORT-ANFRAGE (Maße-Modus → externes Formular) ════ */
+  (function(){
+    var btn=g('brc-hsend-'+S); if(!btn) return;
+    btn.addEventListener('click',function(){
+      goForm({ Fahrzeugtyp:'', 'Maße': CD.cargoLength+' × '+CD.cargoWidth+' × '+CD.cargoHeight+' cm' });
+    });
+  })();
+
+  /* ═══ MODE TOGGLE ═════════════════════════════════════════ */
+  function setMode(m){
+    var t1=g('brc-tab1-'+S),t2=g('brc-tab2-'+S),v1=g('brc-v1-'+S),v2=g('brc-v2-'+S);
+    t1.classList.toggle('brc-tab--on',m===1); t2.classList.toggle('brc-tab--on',m===2);
+    t1.setAttribute('aria-selected',m===1); t2.setAttribute('aria-selected',m===2);
+    v1.classList.toggle('brc-hidden',m!==1); v2.classList.toggle('brc-hidden',m!==2);
+    var ac=g('brc-accord-'+S); if(ac) ac.open=false;
+  }
+  g('brc-tab1-'+S).addEventListener('click',function(){setMode(1);});
+  g('brc-tab2-'+S).addEventListener('click',function(){setMode(2);});
+
+  /* ═══ FILTER PILLS ════════════════════════════════════════ */
+  var fEl=g('brc-filters-'+S);
+  fEl.querySelectorAll('[data-ftype]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      F.type=btn.dataset.ftype;
+      fEl.querySelectorAll('[data-ftype]').forEach(function(b){b.classList.remove('brc-pill--on');});
+      btn.classList.add('brc-pill--on'); refresh();
+    });
+  });
+  fEl.querySelectorAll('[data-fpersons]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      F.persons=parseInt(btn.dataset.fpersons,10);
+      fEl.querySelectorAll('[data-fpersons]').forEach(function(b){b.classList.remove('brc-pill--on');});
+      btn.classList.add('brc-pill--on');
+      g('brc-fnote-'+S).textContent='';
+      refresh();
+    });
+  });
+  function refresh(){vMore=false;cMore=false;if(selModel)renderVRes(selModel);calcRender();}
+  /* ── Reset button ────────────────────────────────────────── */
+  (function(){
+    var rb=document.getElementById('brc-reset-'+S);
+    if(!rb) return;
+    rb.addEventListener('click',function(){
+      selBrand=null; selModel=null; vMore=false;
+      setStep(1);
+      var ac=g('brc-accord-'+S); if(ac) ac.open=false;
+      renderBrands();
+      var vi=document.getElementById('brc-vinfo-'+S),
+          vs=document.getElementById('brc-vsum-'+S),
+          vg=document.getElementById('brc-vgrid-'+S);
+      if(vi) vi.innerHTML='';
+      if(vs) vs.innerHTML='';
+      if(vg) vg.innerHTML='';
+    });
+  })();
+  function g(id){return document.getElementById(id);}
+});
+</script>
+</section>
+</body>
+</html>
