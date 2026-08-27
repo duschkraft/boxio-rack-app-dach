@@ -566,7 +566,7 @@
     recommended: "Empfohlen",
     price: "ab {price}",
     price_incl: "inkl. MwSt.",
-    to_bundle: "Zum Bundle",
+    to_bundle: "Mehr Informationen",
     sum_none: "Keine Bundles für diese Filterkombination.",
     sum_nofit: "Kein Bundle passt in diesen Laderaum.",
     sum_fit: "{count} von {total} Bundles passen in deinen Laderaum.",
@@ -918,7 +918,7 @@
     var warnMsg='';  /* Hinweise erscheinen gebündelt über den Ergebnissen (brc-vhints) */
     var why=c.ok?'':c.why?c.why.map(function(w){return '<div class="brc-nofit">⚠ '+w+'</div>';}).join(''):'';
     var price=(showPrice&&b.price)?'<div class="brc-bprice">'+T.price.replace('{price}',b.price)+'<span>'+T.price_incl+'</span></div>':'';
-    var cta=c.ok?'<a href="'+b.url+'" class="brc-bcta">'+T.to_bundle+' →</a>':'';
+    var cta=c.ok?'<a href="#" class="brc-bcta brc-messe-cta">'+T.to_bundle+' →</a>':'';
     var inc=b.inc.map(function(i){return '<li>'+i+'</li>';}).join('');
     card.innerHTML=ribbon+badge
       +'<div><div class="brc-bgrp">'+b.grp+'</div><div class="brc-bnm">'+b.nm+'</div></div>'
@@ -1050,6 +1050,8 @@
   }
   g('brc-tab1-'+S).addEventListener('click',function(){setMode(1);});
   g('brc-tab2-'+S).addEventListener('click',function(){setMode(2);});
+  function scrollToMesse(){ var v2=g('brc-v2-'+S); var measure=v2&&v2.className.indexOf('brc-hidden')===-1; var help=g(measure?'brc-help-'+S:'brc-help2-'+S); if(help&&help.scrollIntoView){help.scrollIntoView({behavior:'smooth',block:'start'});} }
+  root.addEventListener('click',function(e){ var t=e.target; while(t&&t!==root){ if(t.className&&(' '+t.className+' ').indexOf(' brc-messe-cta ')>-1){ e.preventDefault(); scrollToMesse(); return; } t=t.parentNode; } });
 
   /* ═══ FILTER PILLS ════════════════════════════════════════ */
   var fEl=g('brc-filters-'+S);
